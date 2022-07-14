@@ -1,0 +1,3 @@
+[submodule "submodules/truenas-charts"]
+	path = submodules/truenas-charts
+	url = https://github.com/truenas/charts.git

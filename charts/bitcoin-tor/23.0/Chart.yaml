@@ -1,0 +1,19 @@
+apiVersion: v2
+dependencies:
+- name: common
+  version: "2206.0.0"
+  repository: "file://../../../library/common/2206.0.0"
+description: "Bitcoin Core running behind tor only"
+home: https://github.com/bitcoin/bitcoin
+icon: https://avatars.githubusercontent.com/u/528860
+keywords:
+- bitcoin-node
+- crypto
+- tor
+name: bitcoin-tor
+sources:
+- https://github.com/bitcoin/bitcoin.git
+- https://gitweb.torproject.org/tor.git
+- https://hub.docker.com/r/ruimarinho/bitcoin-core
+- https://hub.docker.com/r/dennajort/tor-client
+version: "23.0"

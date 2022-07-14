@@ -1,0 +1,60 @@
+{{ include "common.storage.hostPathValidate" .Values }}
+apiVersion: {{ template "common.capabilities.deployment.apiVersion" . }}
+kind: Deployment
+metadata:
+  name: {{ template "common.names.fullname" . }}
+  labels: {{ include "common.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  strategy:
+    type: {{ .Values.updateStrategy }}
+  selector:
+    matchLabels: {{ include "common.labels.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      name: {{ template "common.names.fullname" . }}
+      labels: {{ include "common.labels.selectorLabels" . | nindent 8 }}
+    spec:
+      hostNetwork: false
+      containers:
+        - name: tor
+          image: {{ printf "%s:%s" .Values.tor.image.repository .Values.tor.image.tag }}
+          imagePullPolicy: {{ .Values.tor.image.pullPolicy }}
+          command: [
+            "tor",
+            '-ControlPort', '9051',
+          ]
+          volumeMounts:
+            - name: tor-data
+              mountPath: /var/lib/tor
+        - name: bitcoin
+          {{ include "common.resources.limitaion" . | nindent 10 }}
+          {{ include "common.containers.imageConfig" .Values.image | nindent 10 }}
+          volumeMounts: {{ include "common.storage.configureAppVolumeMountsInContainer" .Values | nindent 12 }}
+          {{ range $index, $hostPathConfiguration := .Values.extraAppVolumeMounts }}
+            - name: extrappvolume-{{ $index }}
+              mountPath: {{ $hostPathConfiguration.mountPath }}
+          {{ end }}
+          command:
+            - 'bitcoind'
+            - '-printtoconsole'
+            - '-proxy=127.0.0.1:9050'
+            - '-torcontrol=127.0.0.1:9051'
+            - '-onlynet=onion'
+            {{ range (default list .Values.cliArgs) }}
+            - {{ quote . }}
+            {{ end }}
+          {{ $envList := (default list .Values.environmentVariables) }}
+          {{ $envList = mustAppend $envList (dict "name" "BITCOIN_DATA" "value" "/var/lib/bitcoin-core") }}
+          {{ include "common.containers.allEnvironmentVariables" (dict "environmentVariables" $envList) | nindent 10 }}
+      volumes: {{ include "common.storage.configureAppVolumes" .Values | nindent 8 }}
+        - name: tor-data
+          configMap:
+            defaultMode: 0700
+            name: "tor-data"
+      
+      {{ range $index, $hostPathConfiguration := .Values.extraAppVolumeMounts }}
+        - name: extrappvolume-{{ $index }}
+          hostPath:
+            path: {{ $hostPathConfiguration.hostPath }}
+      {{ end }}

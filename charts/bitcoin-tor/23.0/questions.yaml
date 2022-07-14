@@ -1,0 +1,158 @@
+groups:
+  - name: "Configuration"
+    description: "Configure Bitcoin Core Tor"
+  - name: "Networking"
+    description: "Configure Networking for Bitcoin"
+  - name: "Storage"
+    description: "Configure Storage for Bitcoin"
+  - name: "Resource Limits"
+    description: "Set CPU/memory limits for Kubernetes Pod"
+
+questions:
+  - variable: timezone
+    label: "Configure timezone"
+    group: "Configuration"
+    description: "Configure timezone for Bitcoin"
+    schema:
+      type: string
+      $ref:
+        - "definitions/timezone"
+
+  - variable: ownerUID
+    label: "Storage User ID"
+    description: "User ID of the storage volume being used (application will chown the storage volume path with specified UID)"
+    group: Configuration
+    schema:
+      type: int
+      default: 568
+      min: 1
+      max: 65535
+
+  - variable: ownerGID
+    label: "Storage Group ID"
+    description: "Group ID of the storage volume being used (application will chown the storage volume path with specified GID)"
+    group: Configuration
+    schema:
+      type: int
+      default: 568
+      min: 1
+      max: 65535
+
+  - variable: cliArgs
+    label: "Command Line Arguments"
+    description: "Bitcoind arguments to append to base ones"
+    group: Configuration
+    schema:
+      type: list
+      default: []
+      items:
+        - variable: cliArg
+          label: "Command Line Argument"
+          schema:
+            type: string
+
+  - variable: environmentVariables
+    label: "Environment Variables"
+    group: "Configuration"
+    schema:
+      type: list
+      default: []
+      items:
+        - variable: environmentVariable
+          label: "Environment Variable"
+          schema:
+            type: dict
+            attrs:
+              - variable: name
+                label: "Name"
+                schema:
+                  type: string
+              - variable: value
+                label: "Value"
+                schema:
+                  type: string
+
+  - variable: appVolumeMounts
+    label: "Bitcoin Storage"
+    group: "Storage"
+    schema:
+      type: dict
+      attrs:
+        - variable: bitcoinData
+          label: "Storage Volume for Bitcoin Data"
+          schema:
+            type: dict
+            attrs:
+              - variable: datasetName
+                label: "Bitcoin Data Storage Volume Dataset Name"
+                schema:
+                  type: string
+                  hidden: true
+                  $ref:
+                    - "normalize/ixVolume"
+                  show_if: [["hostPathEnabled", "=", false]]
+                  default: "ix-config"
+                  editable: false
+              - variable: mountPath
+                label: "Bitcoin Data Storage Mount Path"
+                description: "Path where the volume will be mounted inside the pod"
+                schema:
+                  type: path
+                  hidden: true
+                  editable: false
+                  default: "/var/lib/bitcoin-core"
+              - variable: hostPath
+                label: "Host Path for Bitcoin Data Storage Volume"
+                schema:
+                  type: hostpath
+                  required: true
+
+  - variable: extraAppVolumeMounts
+    label: "Bitcoin Extra Host Path Volumes"
+    group: "Storage"
+    schema:
+      type: list
+      items:
+        - variable: extraAppVolume
+          label: "Bitcoin Host Path Volume"
+          description: "Add an extra host path volume for Bitcoin application"
+          schema:
+            type: dict
+            attrs:
+              - variable: mountPath
+                label: "Mount Path in Pod"
+                description: "Path where the volume will be mounted inside the pod"
+                schema:
+                  type: path
+                  required: true
+              - variable: hostPath
+                label: "Host Path"
+                description: "Host path"
+                schema:
+                  type: hostpath
+                  required: true
+
+  - variable: enableResourceLimits
+    label: "Enable Pod resource limits"
+    group: "Resource Limits"
+    schema:
+      type: boolean
+      default: false
+  - variable: cpuLimit
+    label: "CPU Limit"
+    description: "CPU resource limit allow  plain integer values with suffix m(milli) e.g 1000m, 100."
+    group: "Resource Limits"
+    schema:
+      type: string
+      show_if: [["enableResourceLimits", "=", true]]
+      valid_chars: "^\\d+(?:\\.\\d+(?!.*m$)|m?$)"
+      default: "2000m"
+  - variable: memLimit
+    label: "Memory Limit"
+    group: "Resource Limits"
+    description: "Memory limits is specified by number of bytes. Followed by quantity suffix like E,P,T,G,M,k and Ei,Pi,Ti,Mi,Gi,Ki can also be used. e.g 129e6, 129M,  128974848000m, 123Mi"
+    schema:
+      type: string
+      show_if: [["enableResourceLimits", "=", true]]
+      valid_chars: "^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$"
+      default: "1Gi"
