@@ -71,8 +71,8 @@ spec:
           {{- if .Values.enableResourceLimits }}
           resources:
             limits:
-              cpu: {{ cpuLimit | quote }}
-              memory: {{ memory | quote }}
+              cpu: {{ .Values.cpuLimit | quote }}
+              memory: {{ .Values.memory | quote }}
           {{- end }}
 
       volumes:
