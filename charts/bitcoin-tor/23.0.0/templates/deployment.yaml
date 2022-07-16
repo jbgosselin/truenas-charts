@@ -68,9 +68,11 @@ spec:
             - name: bitcoin-data
               mountPath: /var/lib/bitcoin
           
+          {{- if .Values.enableResourceLimits }}
           resources:
-          {{- with .Values.resources }}
-            {{- toYaml . | nindent 12 }}
+            limits:
+              cpu: {{ cpuLimit | quote }}
+              memory: {{ memory | quote }}
           {{- end }}
 
       volumes:

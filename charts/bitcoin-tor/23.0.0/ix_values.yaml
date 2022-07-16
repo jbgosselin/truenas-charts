@@ -24,10 +24,9 @@ extraArgs: []
 
 timezone: ''
 
-resources:
-  limit:
-    cpu: 1000m
-    memory: 1Gi
+enableResourceLimits: false
+cpuLimit: 2000m
+memory: 1Gi
 
 bitcoinData:
   datasetName:
