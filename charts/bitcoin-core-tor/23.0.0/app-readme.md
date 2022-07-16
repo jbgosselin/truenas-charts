@@ -1,4 +1,4 @@
-Bitcoin Tor
+Bitcoin Core Tor
 =====
 
 [Bitcoin Core](https://bitcoin.org/en/bitcoin-core/) is the original bitcoin node.

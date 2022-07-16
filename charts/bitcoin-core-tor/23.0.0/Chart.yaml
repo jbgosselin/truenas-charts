@@ -7,10 +7,10 @@ description: "Bitcoin Core running behind tor only"
 home: https://github.com/bitcoin/bitcoin
 icon: https://avatars.githubusercontent.com/u/528860
 keywords:
-- bitcoin-node
+- bitcoin-core
 - crypto
 - tor
-name: bitcoin-tor
+name: bitcoin-core-tor
 sources:
 - https://github.com/bitcoin/bitcoin.git
 - https://gitweb.torproject.org/tor.git
