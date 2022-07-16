@@ -35,16 +35,13 @@ spec:
             - name: tor-data
               mountPath: /var/lib/tor
           
-          {{- with .Values.securityContext }}
-          securityContext:
-            {{- tpl ( toYaml . ) $ | nindent 12 }}
-          {{- end }}
-        
         - name: bitcoin
           image: {{ printf "%s:%s" .Values.image.repository .Values.image.tag | quote }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
 
-          args:
+          command:
+            - 'bitcoind'
+            - '-datadir=/var/lib/bitcoin'
             - '-printtoconsole'
             - '-proxy=127.0.0.1:9050'
             - '-torcontrol=127.0.0.1:9051'
@@ -60,8 +57,6 @@ spec:
           {{- end }}
 
           env:
-            - name: BITCOIN_DATA
-              value: '/var/lib/bitcoin'
             - name: TZ
               value: {{ tpl ( toYaml .Values.timezone ) $ | quote }}
           
