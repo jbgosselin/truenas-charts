@@ -22,19 +22,14 @@ securityContext:
 
 extraArgs: []
 
-TZ: ''
+timezone: ''
 
 resources:
   limit:
     cpu: 1000m
     memory: 1Gi
 
-volumes:
-  - name: tor-config
-    emptyDir: {}
-  - name: tor-data
-    emptyDir: {}
-  - name: bitcoin-data
-    hostPath:
-      path: /nonexistent
-      type: Directory
+bitcoinData:
+  datasetName:
+  mountPath: /var/lib/bitcoin
+  hostPath: 

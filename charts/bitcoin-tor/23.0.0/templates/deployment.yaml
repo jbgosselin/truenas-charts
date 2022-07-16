@@ -62,7 +62,7 @@ spec:
             - name: BITCOIN_DATA
               value: '/var/lib/bitcoin'
             - name: TZ
-              value: {{ tpl ( toYaml .Values.TZ ) $ | quote }}
+              value: {{ tpl ( toYaml .Values.timezone ) $ | quote }}
           
           volumeMounts:
             - name: bitcoin-data
@@ -74,6 +74,11 @@ spec:
           {{- end }}
 
       volumes:
-      {{- with .Values.volumes }}
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+        - name: tor-config
+          emptyDir: {}
+        - name: tor-data
+          emptyDir: {}
+        - name: bitcoin-data
+          hostPath:
+            type: Directory
+            path: {{ .Values.bitcoinData.hostPath }}

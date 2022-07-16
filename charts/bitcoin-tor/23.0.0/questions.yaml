@@ -18,7 +18,7 @@ questions:
       $ref:
         - "definitions/timezone"
 
-  - variable: ownerUID
+  - variable: securityContext.runAsUser
     label: "Storage User ID"
     description: "User ID of the storage volume being used (application will chown the storage volume path with specified UID)"
     group: Configuration
@@ -28,7 +28,7 @@ questions:
       min: 1
       max: 65535
 
-  - variable: ownerGID
+  - variable: securityContext.runAsGroup
     label: "Storage Group ID"
     description: "Group ID of the storage volume being used (application will chown the storage volume path with specified GID)"
     group: Configuration
@@ -38,7 +38,7 @@ questions:
       min: 1
       max: 65535
 
-  - variable: cliArgs
+  - variable: extraArgs
     label: "Command Line Arguments"
     description: "Bitcoind arguments to append to base ones"
     group: Configuration
@@ -46,91 +46,40 @@ questions:
       type: list
       default: []
       items:
-        - variable: cliArg
+        - variable: extraArg
           label: "Command Line Argument"
           schema:
             type: string
 
-  - variable: environmentVariables
-    label: "Environment Variables"
-    group: "Configuration"
-    schema:
-      type: list
-      default: []
-      items:
-        - variable: environmentVariable
-          label: "Environment Variable"
-          schema:
-            type: dict
-            attrs:
-              - variable: name
-                label: "Name"
-                schema:
-                  type: string
-              - variable: value
-                label: "Value"
-                schema:
-                  type: string
-
-  - variable: appVolumeMounts
-    label: "Bitcoin Storage"
+  - variable: bitcoinData
+    label: "Storage Volume for Bitcoin Data"
     group: "Storage"
     schema:
       type: dict
       attrs:
-        - variable: bitcoinData
-          label: "Storage Volume for Bitcoin Data"
+        - variable: datasetName
+          label: "Bitcoin Data Storage Volume Dataset Name"
           schema:
-            type: dict
-            attrs:
-              - variable: datasetName
-                label: "Bitcoin Data Storage Volume Dataset Name"
-                schema:
-                  type: string
-                  hidden: true
-                  $ref:
-                    - "normalize/ixVolume"
-                  show_if: [["hostPathEnabled", "=", false]]
-                  default: "ix-config"
-                  editable: false
-              - variable: mountPath
-                label: "Bitcoin Data Storage Mount Path"
-                description: "Path where the volume will be mounted inside the pod"
-                schema:
-                  type: path
-                  hidden: true
-                  editable: false
-                  default: "/var/lib/bitcoin-core"
-              - variable: hostPath
-                label: "Host Path for Bitcoin Data Storage Volume"
-                schema:
-                  type: hostpath
-                  required: true
-
-  - variable: extraAppVolumeMounts
-    label: "Bitcoin Extra Host Path Volumes"
-    group: "Storage"
-    schema:
-      type: list
-      items:
-        - variable: extraAppVolume
-          label: "Bitcoin Host Path Volume"
-          description: "Add an extra host path volume for Bitcoin application"
+            type: string
+            hidden: true
+            $ref:
+              - "normalize/ixVolume"
+            show_if: [["hostPathEnabled", "=", false]]
+            default: "ix-config"
+            editable: false
+        - variable: mountPath
+          label: "Bitcoin Data Storage Mount Path"
+          description: "Path where the volume will be mounted inside the pod"
           schema:
-            type: dict
-            attrs:
-              - variable: mountPath
-                label: "Mount Path in Pod"
-                description: "Path where the volume will be mounted inside the pod"
-                schema:
-                  type: path
-                  required: true
-              - variable: hostPath
-                label: "Host Path"
-                description: "Host path"
-                schema:
-                  type: hostpath
-                  required: true
+            type: path
+            hidden: true
+            editable: false
+            default: "/var/lib/bitcoin"
+        - variable: hostPath
+          label: "Host Path for Bitcoin Data Storage Volume"
+          schema:
+            type: hostpath
+            required: true
 
   - variable: enableResourceLimits
     label: "Enable Pod resource limits"
