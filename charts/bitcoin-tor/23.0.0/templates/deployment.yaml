@@ -1,0 +1,79 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "tc.common.names.fullname" . }}
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      {{- include "tc.common.labels.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "tc.common.labels.selectorLabels" . | nindent 8 }}
+    spec:
+      hostNetwork: false
+      {{- with .Values.termination.gracePeriodSeconds }}
+      terminationGracePeriodSeconds: {{ . }}
+      {{- end }}
+      containers:
+        - name: tor
+          image: {{ printf "%s:%s" .Values.tor.image.repository .Values.tor.image.tag | quote }}
+          imagePullPolicy: {{ .Values.tor.image.pullPolicy }}
+          
+          args:
+            - '-ControlPort'
+            - '9051'
+          
+          volumeMounts:
+            - name: tor-config
+              mountPath: /etc/tor/torrc.d
+            - name: tor-data
+              mountPath: /var/lib/tor
+          
+          {{- with .Values.securityContext }}
+          securityContext:
+            {{- tpl ( toYaml . ) $ | nindent 12 }}
+          {{- end }}
+        
+        - name: bitcoin
+          image: {{ printf "%s:%s" .Values.image.repository .Values.image.tag | quote }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+
+          args:
+            - '-printtoconsole'
+            - '-proxy=127.0.0.1:9050'
+            - '-torcontrol=127.0.0.1:9051'
+            - '-onlynet=onion'
+            - '-listen=1'
+          {{- with .Values.extraArgs }}
+            {{- tpl ( toYaml . ) $ | nindent 12 }}
+          {{- end }}
+
+          {{- with .Values.securityContext }}
+          securityContext:
+            {{- tpl ( toYaml . ) $ | nindent 12 }}
+          {{- end }}
+
+          env:
+            - name: BITCOIN_DATA
+              value: '/var/lib/bitcoin'
+            - name: TZ
+              value: {{ tpl ( toYaml .Values.TZ ) $ | quote }}
+          
+          volumeMounts:
+            - name: bitcoin-data
+              mountPath: /var/lib/bitcoin
+          
+          resources:
+          {{- with .Values.resources }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+
+      volumes:
+      {{- with .Values.volumes }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

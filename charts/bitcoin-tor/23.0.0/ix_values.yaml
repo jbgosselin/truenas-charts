@@ -1,0 +1,40 @@
+# Default values for foobar.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+tor:
+  image:
+    repository: "dennajort/tor-client"
+    pullPolicy: IfNotPresent
+    tag: "0.4.7.8"
+
+image:
+  repository: "ruimarinho/bitcoin-core"
+  pullPolicy: IfNotPresent
+  tag: "23.0"
+
+termination:
+  gracePeriodSeconds: 600
+
+securityContext:
+  runAsUser: 568
+  runAsGroup: 568
+
+extraArgs: []
+
+TZ: ''
+
+resources:
+  limit:
+    cpu: 1000m
+    memory: 1Gi
+
+volumes:
+  - name: tor-config
+    emptyDir: {}
+  - name: tor-data
+    emptyDir: {}
+  - name: bitcoin-data
+    hostPath:
+      path: /nonexistent
+      type: Directory
