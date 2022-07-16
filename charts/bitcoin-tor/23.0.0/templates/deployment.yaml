@@ -24,7 +24,8 @@ spec:
           image: {{ printf "%s:%s" .Values.tor.image.repository .Values.tor.image.tag | quote }}
           imagePullPolicy: {{ .Values.tor.image.pullPolicy }}
           
-          args:
+          command:
+            - '/bin/tor'
             - '-ControlPort'
             - '9051'
           
