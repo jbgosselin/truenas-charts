@@ -81,6 +81,36 @@ questions:
             type: hostpath
             required: true
 
+  - variable: torData
+    label: "Storage Volume for Tor Data"
+    group: "Storage"
+    schema:
+      type: dict
+      attrs:
+        - variable: datasetName
+          label: "Tor Data Storage Volume Dataset Name"
+          schema:
+            type: string
+            hidden: true
+            $ref:
+              - "normalize/ixVolume"
+            show_if: [["hostPathEnabled", "=", false]]
+            default: "ix-config"
+            editable: false
+        - variable: mountPath
+          label: "Tor Data Storage Mount Path"
+          description: "Path where the volume will be mounted inside the pod"
+          schema:
+            type: path
+            hidden: true
+            editable: false
+            default: "/var/lib/tor"
+        - variable: hostPath
+          label: "Host Path for Tor Data Storage Volume"
+          schema:
+            type: hostpath
+            required: true
+
   - variable: enableResourceLimits
     label: "Enable Pod resource limits"
     group: "Resource Limits"

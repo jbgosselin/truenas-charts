@@ -32,3 +32,8 @@ bitcoinData:
   datasetName:
   mountPath: /var/lib/bitcoin
   hostPath: 
+
+torData:
+  datasetName:
+  mountPath: /var/lib/tor
+  hostPath: 

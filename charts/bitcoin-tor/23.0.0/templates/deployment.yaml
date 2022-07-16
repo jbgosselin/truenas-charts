@@ -30,10 +30,13 @@ spec:
             - '9051'
           
           volumeMounts:
-            - name: tor-config
-              mountPath: /etc/tor/torrc.d
             - name: tor-data
-              mountPath: /var/lib/tor
+              mountPath: {{ .Values.torData.mountPath }}
+
+          {{- with .Values.securityContext }}
+          securityContext:
+            {{- tpl ( toYaml . ) $ | nindent 12 }}
+          {{- end }}
           
         - name: bitcoin
           image: {{ printf "%s:%s" .Values.image.repository .Values.image.tag | quote }}
@@ -41,7 +44,7 @@ spec:
 
           command:
             - 'bitcoind'
-            - '-datadir=/var/lib/bitcoin'
+            - {{ printf "-datadir=%s" .Values.bitcoinData.mountPath | quote }}
             - '-printtoconsole'
             - '-proxy=127.0.0.1:9050'
             - '-torcontrol=127.0.0.1:9051'
@@ -62,7 +65,7 @@ spec:
           
           volumeMounts:
             - name: bitcoin-data
-              mountPath: /var/lib/bitcoin
+              mountPath: {{ .Values.bitcoinData.mountPath }}
           
           {{- if .Values.enableResourceLimits }}
           resources:
@@ -72,10 +75,10 @@ spec:
           {{- end }}
 
       volumes:
-        - name: tor-config
-          emptyDir: {}
         - name: tor-data
-          emptyDir: {}
+          hostPath:
+            type: Directory
+            path: {{ .Values.torData.hostPath }}
         - name: bitcoin-data
           hostPath:
             type: Directory
