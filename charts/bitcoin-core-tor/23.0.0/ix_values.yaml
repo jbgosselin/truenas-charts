@@ -5,7 +5,7 @@
 tor:
   image:
     repository: "dennajort/tor-client"
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
     tag: "0.4"
 
 image:
