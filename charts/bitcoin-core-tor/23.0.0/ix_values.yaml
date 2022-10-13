@@ -6,7 +6,7 @@ tor:
   image:
     repository: "dennajort/tor-client"
     pullPolicy: IfNotPresent
-    tag: "0.4.7.9"
+    tag: "0.4"
 
 image:
   repository: "ruimarinho/bitcoin-core"
