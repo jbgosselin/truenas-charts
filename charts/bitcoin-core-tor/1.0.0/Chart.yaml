@@ -1,4 +1,5 @@
 apiVersion: v2
+appVersion: "23.0"
 dependencies:
 - name: common
   repository: https://library-charts.truecharts.org
@@ -16,4 +17,4 @@ sources:
 - https://gitweb.torproject.org/tor.git
 - https://hub.docker.com/r/ruimarinho/bitcoin-core
 - https://hub.docker.com/r/dennajort/tor-client
-version: "23.0-1.0.0"
+version: "1.0.0"
