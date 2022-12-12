@@ -16,4 +16,4 @@ sources:
 - https://gitweb.torproject.org/tor.git
 - https://hub.docker.com/r/ruimarinho/bitcoin-core
 - https://hub.docker.com/r/dennajort/tor-client
-version: "23.0.0"
+version: "23.0_1.0.0"

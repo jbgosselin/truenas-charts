@@ -9,8 +9,8 @@ tor:
     tag: "0.4"
 
 image:
-  repository: "ruimarinho/bitcoin-core"
-  pullPolicy: IfNotPresent
+  repository: "dennajort/bitcoin-core"
+  pullPolicy: Always
   tag: "23.0"
 
 termination:
