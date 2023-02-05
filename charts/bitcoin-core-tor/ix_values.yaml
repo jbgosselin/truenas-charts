@@ -11,7 +11,7 @@ tor:
 image:
   repository: "dennajort/bitcoin-core"
   pullPolicy: Always
-  tag: "24.0"
+  tag: "24.0.1"
 
 termination:
   gracePeriodSeconds: 600
