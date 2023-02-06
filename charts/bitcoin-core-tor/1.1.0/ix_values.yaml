@@ -1,0 +1,34 @@
+# Default values for foobar.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+tor:
+  image:
+    repository: "dennajort/tor-client"
+    pullPolicy: Always
+    tag: "0.4"
+
+image:
+  repository: "dennajort/bitcoin-core"
+  pullPolicy: Always
+  tag: "24.0.1"
+
+termination:
+  gracePeriodSeconds: 600
+
+securityContext:
+  runAsUser: 568
+  runAsGroup: 568
+
+extraArgs: []
+
+timezone: ''
+
+enableResourceLimits: false
+cpuLimit: 2000m
+memory: 1Gi
+
+bitcoinData:
+  datasetName:
+  mountPath: /var/lib/bitcoin
+  hostPath:

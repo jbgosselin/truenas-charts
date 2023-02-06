@@ -1,0 +1,20 @@
+apiVersion: v2
+appVersion: "24.0.1"
+dependencies:
+- name: common
+  repository: https://library-charts.truecharts.org
+  version: 11.1.2
+description: "Bitcoin Core running behind tor only"
+home: https://github.com/bitcoin/bitcoin
+icon: https://avatars.githubusercontent.com/u/528860
+keywords:
+- bitcoin-core
+- crypto
+- tor
+name: bitcoin-core-tor
+sources:
+- https://github.com/bitcoin/bitcoin.git
+- https://gitweb.torproject.org/tor.git
+- https://hub.docker.com/r/ruimarinho/bitcoin-core
+- https://hub.docker.com/r/dennajort/tor-client
+version: "1.1.0"
