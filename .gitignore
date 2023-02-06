@@ -1,4 +1,3 @@
 test_values.yaml
-charts/**/charts/*.tgz
 charts/**/render/*
 Chart.lock
