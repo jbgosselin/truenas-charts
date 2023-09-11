@@ -15,6 +15,6 @@ name: bitcoin-core-tor
 sources:
 - https://github.com/bitcoin/bitcoin.git
 - https://gitweb.torproject.org/tor.git
-- https://hub.docker.com/r/ruimarinho/bitcoin-core
-- https://hub.docker.com/r/dennajort/tor-client
+- https://github.com/jbgosselin/docker-bitcoin-core
+- https://github.com/jbgosselin/docker-tor-client
 version: "1.1.0"
