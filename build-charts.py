@@ -13,7 +13,7 @@ sourceFolder = "src"
 trainName = "charts"
 
 def main():
-    lastUpdate = datetime.utcnow().isoformat()
+    lastUpdate = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
     catalog = {}
     catalog[trainName] = {}
 
