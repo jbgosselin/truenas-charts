@@ -3,14 +3,14 @@
         "bitcoin-core-tor": {
             "app_readme": "<h1>Bitcoin Core Tor</h1>\n<h2>Bitcoin Core client running behind a tor proxy.</h2>\n<p><a href=\"https://bitcoin.org/en/bitcoin-core/\">Bitcoin Core</a> is the original bitcoin node.\n<a href=\"https://www.torproject.org/\">Tor</a> is a free, worldwide, volunteer overlay network enabling anonymous communication.</p>",
             "categories": [
-                "Cryptocurrency"
+                "cryptocurrency"
             ],
             "description": "Bitcoin Core running behind tor only",
             "healthy": true,
             "healthy_error": null,
             "home": "https://github.com/bitcoin/bitcoin",
             "icon_url": "https://avatars.githubusercontent.com/u/528860",
-            "last_update": "2023-11-11T18:46:48.963943",
+            "last_update": "2023-11-11T19:24:04.141521",
             "latest_app_version": "25.1",
             "latest_human_version": "25.1_1.2.2",
             "latest_version": "1.2.2",
@@ -18,7 +18,7 @@
             "maintainers": [
                 {
                     "email": "1536838+jbgosselin@users.noreply.github.com",
-                    "name": "JB Gosselin",
+                    "name": "jbgosselin",
                     "url": "https://github.com/jbgosselin"
                 }
             ],
