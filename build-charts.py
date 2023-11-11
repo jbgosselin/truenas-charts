@@ -9,8 +9,8 @@ from datetime import datetime
 import markdown
 
 catalogPath = "catalog.json"
-sourceFolder = "src"
 trainName = "charts"
+sourceFolder = "./library/ix-dev/" + trainName
 
 def main():
     lastUpdate = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
