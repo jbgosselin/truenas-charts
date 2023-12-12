@@ -103,7 +103,7 @@ def main():
             "schema": questionsFile,
             "app_readme": readmeContent,
             "detailed_readme": readmeContent,
-            "changelog": None,
+            "changelog": "",
         }
         with open(appVersionsPath, mode="w") as openedFile:
             json.dump(appVersions, openedFile, sort_keys=True, indent=4)
