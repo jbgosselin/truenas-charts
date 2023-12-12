@@ -29,6 +29,5 @@ cpuLimit: 2000m
 memLimit: 1Gi
 
 bitcoinData:
-  datasetName: "ix-config"
   mountPath: /var/lib/bitcoin
   hostPath:

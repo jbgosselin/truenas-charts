@@ -266,7 +266,7 @@
         "healthy": true,
         "healthy_error": null,
         "human_version": "26.0_1.2.4",
-        "last_update": "2023-12-12 02:18:39",
+        "last_update": "2023-12-12 02:22:02",
         "location": "/__w/charts/bitcoin-core-tor",
         "required_features": [],
         "schema": {
@@ -349,26 +349,6 @@
                     "label": "Storage Volume for Bitcoin Data",
                     "schema": {
                         "attrs": [
-                            {
-                                "label": "Bitcoin Data Storage Volume Dataset Name",
-                                "schema": {
-                                    "$ref": [
-                                        "normalize/ixVolume"
-                                    ],
-                                    "default": "ix-config",
-                                    "editable": false,
-                                    "hidden": true,
-                                    "show_if": [
-                                        [
-                                            "hostPathEnabled",
-                                            "=",
-                                            false
-                                        ]
-                                    ],
-                                    "type": "string"
-                                },
-                                "variable": "datasetName"
-                            },
                             {
                                 "description": "Path where the volume will be mounted inside the pod",
                                 "label": "Bitcoin Data Storage Mount Path",
