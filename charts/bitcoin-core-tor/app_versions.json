@@ -1,0 +1,224 @@
+{
+    "1.2.3": {
+        "app_metadata": null,
+        "app_readme": "<h1>Bitcoin Core Tor</h1>\n<h2>Bitcoin Core client running behind a tor proxy.</h2>\n<p><a href=\"https://bitcoin.org/en/bitcoin-core/\">Bitcoin Core</a> is the original bitcoin node.\n<a href=\"https://www.torproject.org/\">Tor</a> is a free, worldwide, volunteer overlay network enabling anonymous communication.</p>",
+        "changelog": null,
+        "chart_metadata": {
+            "annotations": {},
+            "apiVersion": "v2",
+            "appVersion": "26.0",
+            "dependencies": [
+                {
+                    "name": "common",
+                    "repository": "https://library-charts.truecharts.org",
+                    "version": "11.1.2"
+                }
+            ],
+            "deprecated": false,
+            "description": "Bitcoin Core running behind tor only",
+            "home": "https://github.com/bitcoin/bitcoin",
+            "icon": "https://avatars.githubusercontent.com/u/528860",
+            "keywords": [
+                "bitcoin-core",
+                "crypto",
+                "tor"
+            ],
+            "kubeVersion": ">=1.24.0",
+            "maintainers": [
+                {
+                    "email": "1536838+jbgosselin@users.noreply.github.com",
+                    "name": "jbgosselin",
+                    "url": "https://github.com/jbgosselin"
+                }
+            ],
+            "name": "bitcoin-core-tor",
+            "sources": [
+                "https://github.com/bitcoin/bitcoin.git",
+                "https://gitweb.torproject.org/tor.git",
+                "https://github.com/jbgosselin/docker-bitcoin-core",
+                "https://github.com/jbgosselin/docker-tor-client"
+            ],
+            "version": "1.2.3"
+        },
+        "detailed_readme": "<h1>Bitcoin Core Tor</h1>\n<h2>Bitcoin Core client running behind a tor proxy.</h2>\n<p><a href=\"https://bitcoin.org/en/bitcoin-core/\">Bitcoin Core</a> is the original bitcoin node.\n<a href=\"https://www.torproject.org/\">Tor</a> is a free, worldwide, volunteer overlay network enabling anonymous communication.</p>",
+        "healthy": true,
+        "healthy_error": null,
+        "human_version": "26.0_1.2.3",
+        "last_update": "2023-12-12 01:25:44",
+        "location": "/__w/charts/bitcoin-core-tor",
+        "required_features": [],
+        "schema": {
+            "groups": [
+                {
+                    "description": "Configure Bitcoin Core Tor",
+                    "name": "Configuration"
+                },
+                {
+                    "description": "Configure Networking for Bitcoin",
+                    "name": "Networking"
+                },
+                {
+                    "description": "Configure Storage for Bitcoin",
+                    "name": "Storage"
+                },
+                {
+                    "description": "Set CPU/memory limits for Kubernetes Pod",
+                    "name": "Resource Limits"
+                }
+            ],
+            "questions": [
+                {
+                    "description": "Configure timezone for Bitcoin",
+                    "group": "Configuration",
+                    "label": "Configure timezone",
+                    "schema": {
+                        "$ref": [
+                            "definitions/timezone"
+                        ],
+                        "type": "string"
+                    },
+                    "variable": "timezone"
+                },
+                {
+                    "description": "User ID of the storage volume being used (application will chown the storage volume path with specified UID)",
+                    "group": "Configuration",
+                    "label": "Storage User ID",
+                    "schema": {
+                        "default": 568,
+                        "max": 65535,
+                        "min": 1,
+                        "type": "int"
+                    },
+                    "variable": "securityContext.runAsUser"
+                },
+                {
+                    "description": "Group ID of the storage volume being used (application will chown the storage volume path with specified GID)",
+                    "group": "Configuration",
+                    "label": "Storage Group ID",
+                    "schema": {
+                        "default": 568,
+                        "max": 65535,
+                        "min": 1,
+                        "type": "int"
+                    },
+                    "variable": "securityContext.runAsGroup"
+                },
+                {
+                    "description": "Bitcoind arguments to append to base ones",
+                    "group": "Configuration",
+                    "label": "Command Line Arguments",
+                    "schema": {
+                        "default": [],
+                        "items": [
+                            {
+                                "label": "Command Line Argument",
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "variable": "extraArg"
+                            }
+                        ],
+                        "type": "list"
+                    },
+                    "variable": "extraArgs"
+                },
+                {
+                    "group": "Storage",
+                    "label": "Storage Volume for Bitcoin Data",
+                    "schema": {
+                        "attrs": [
+                            {
+                                "label": "Bitcoin Data Storage Volume Dataset Name",
+                                "schema": {
+                                    "$ref": [
+                                        "normalize/ixVolume"
+                                    ],
+                                    "default": "ix-config",
+                                    "editable": false,
+                                    "hidden": true,
+                                    "show_if": [
+                                        [
+                                            "hostPathEnabled",
+                                            "=",
+                                            false
+                                        ]
+                                    ],
+                                    "type": "string"
+                                },
+                                "variable": "datasetName"
+                            },
+                            {
+                                "description": "Path where the volume will be mounted inside the pod",
+                                "label": "Bitcoin Data Storage Mount Path",
+                                "schema": {
+                                    "default": "/var/lib/bitcoin",
+                                    "editable": false,
+                                    "hidden": true,
+                                    "type": "path"
+                                },
+                                "variable": "mountPath"
+                            },
+                            {
+                                "label": "Host Path for Bitcoin Data Storage Volume",
+                                "schema": {
+                                    "required": true,
+                                    "type": "hostpath"
+                                },
+                                "variable": "hostPath"
+                            }
+                        ],
+                        "type": "dict"
+                    },
+                    "variable": "bitcoinData"
+                },
+                {
+                    "group": "Resource Limits",
+                    "label": "Enable Pod resource limits",
+                    "schema": {
+                        "default": false,
+                        "type": "boolean"
+                    },
+                    "variable": "enableResourceLimits"
+                },
+                {
+                    "description": "CPU resource limit allow  plain integer values with suffix m(milli) e.g 1000m, 100.",
+                    "group": "Resource Limits",
+                    "label": "CPU Limit",
+                    "schema": {
+                        "default": "2000m",
+                        "show_if": [
+                            [
+                                "enableResourceLimits",
+                                "=",
+                                true
+                            ]
+                        ],
+                        "type": "string",
+                        "valid_chars": "^\\d+(?:\\.\\d+(?!.*m$)|m?$)"
+                    },
+                    "variable": "cpuLimit"
+                },
+                {
+                    "description": "Memory limits is specified by number of bytes. Followed by quantity suffix like E,P,T,G,M,k and Ei,Pi,Ti,Mi,Gi,Ki can also be used. e.g 129e6, 129M,  128974848000m, 123Mi",
+                    "group": "Resource Limits",
+                    "label": "Memory Limit",
+                    "schema": {
+                        "default": "1Gi",
+                        "show_if": [
+                            [
+                                "enableResourceLimits",
+                                "=",
+                                true
+                            ]
+                        ],
+                        "type": "string",
+                        "valid_chars": "^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$"
+                    },
+                    "variable": "memLimit"
+                }
+            ]
+        },
+        "supported": true,
+        "version": "1.2.3"
+    }
+}

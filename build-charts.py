@@ -22,6 +22,10 @@ def main():
         chartFilePath = path.join(chartFolder, "Chart.yaml")
         with open(chartFilePath) as openedFile:
             chartFile = yaml.safe_load(openedFile)
+        
+        questionsFilePath = path.join(chartFolder, "questions.yaml")
+        with open(questionsFilePath) as openedFile:
+            questionsFile = yaml.safe_load(openedFile)
 
         appName = chartFile["name"]
         humanVersion = "{}_{}".format(chartFile["appVersion"], chartFile["version"])
@@ -63,6 +67,46 @@ def main():
             "sources": chartFile["sources"],
             "icon_url": itemInfo["icon_url"]
         }
+
+        appVersionsPath = path.join(trainName, appName, "app_versions.json")
+        with open(appVersionsPath) as openedFile:
+            appVersions = json.load(openedFile)
+        appVersions[chartFile["version"]] = {
+            "healthy": True,
+            "healthy_error": None,
+            "supported": True,
+            "location": "/__w/charts/" + appName,
+            "last_update": lastUpdate,
+            "required_features": [],
+            "human_version": humanVersion,
+            "version": chartFile["version"],
+            "chart_metadata": {
+                "kubeVersion": ">=1.24.0",
+                "apiVersion": "v2",
+                "name": appName,
+                "version": chartFile["version"],
+                "appVersion": chartFile["appVersion"],
+                "description": chartFile["description"],
+                "home": chartFile["home"],
+                "icon": itemInfo["icon_url"],
+                "deprecated": False,
+                "sources": chartFile["sources"],
+                "maintainers": chartFile["maintainers"],
+                "keywords": chartFile["keywords"],
+                "dependencies": chartFile["dependencies"],
+                "annotations": {
+                    # "max_scale_version": "23.10.1",
+                    # "min_scale_version": "22.12.4",
+                },
+            },
+            "app_metadata": None,
+            "schema": questionsFile,
+            "app_readme": readmeContent,
+            "detailed_readme": readmeContent,
+            "changelog": None,
+        }
+        with open(appVersionsPath, mode="w") as openedFile:
+            json.dump(appVersions, openedFile, sort_keys=True, indent=4)
     
     with open(catalogPath, mode="w") as catalogFile:
         json.dump(catalog, catalogFile, sort_keys=True, indent=4)
