@@ -24,4 +24,4 @@ sources:
   - https://gitweb.torproject.org/tor.git
   - https://github.com/jbgosselin/docker-bitcoin-core
   - https://github.com/jbgosselin/docker-tor-client
-version: "1.2.3"
+version: "1.2.4"

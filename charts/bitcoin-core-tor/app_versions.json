@@ -1,5 +1,5 @@
 {
-    "1.2.3": {
+    "1.2.4": {
         "app_metadata": null,
         "app_readme": "<h1>Bitcoin Core Tor</h1>\n<h2>Bitcoin Core client running behind a tor proxy.</h2>\n<p><a href=\"https://bitcoin.org/en/bitcoin-core/\">Bitcoin Core</a> is the original bitcoin node.\n<a href=\"https://www.torproject.org/\">Tor</a> is a free, worldwide, volunteer overlay network enabling anonymous communication.</p>",
         "changelog": null,
@@ -38,13 +38,13 @@
                 "https://github.com/jbgosselin/docker-bitcoin-core",
                 "https://github.com/jbgosselin/docker-tor-client"
             ],
-            "version": "1.2.3"
+            "version": "1.2.4"
         },
         "detailed_readme": "<h1>Bitcoin Core Tor</h1>\n<h2>Bitcoin Core client running behind a tor proxy.</h2>\n<p><a href=\"https://bitcoin.org/en/bitcoin-core/\">Bitcoin Core</a> is the original bitcoin node.\n<a href=\"https://www.torproject.org/\">Tor</a> is a free, worldwide, volunteer overlay network enabling anonymous communication.</p>",
         "healthy": true,
         "healthy_error": null,
-        "human_version": "26.0_1.2.3",
-        "last_update": "2023-12-12 01:25:44",
+        "human_version": "26.0_1.2.4",
+        "last_update": "2023-12-12 01:30:50",
         "location": "/__w/charts/bitcoin-core-tor",
         "required_features": [],
         "schema": {
@@ -219,6 +219,6 @@
             ]
         },
         "supported": true,
-        "version": "1.2.3"
+        "version": "1.2.4"
     }
 }
